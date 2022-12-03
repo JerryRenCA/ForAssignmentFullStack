@@ -1,0 +1,91 @@
+@import url("../output.css");
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Satisfy&family=Ubuntu+Condensed&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    /* min-height: 90rem; */
+}
+
+h1 {
+    display: block;
+    color: red;
+    font-size: 4rem;
+}
+
+
+.font-satisfy{
+    font-family: 'Satisfy', cursive;
+}
+.font-playfair{
+    font-family: 'Playfair Display', serif;
+}
+.font-ubuntu-c{
+    font-family: 'Ubuntu Condensed', sans-serif;
+}
+.font-ubuntu{
+    font-family: 'Ubuntu', sans-serif;
+}
+
+main{
+    display: grid;
+    grid-template-columns: 25% 75%;
+}
+
+#table-nav >*{
+    width: 15rem;
+    margin: 0.5rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    background: linear-gradient(rgba(180,44,44,0.8),rgba(90,44,44,0.6));
+    text-align: center;
+}
+
+#table-nav >*:hover{
+    background: linear-gradient(rgba(180,44,44,0.6),rgba(90,44,44,0.4));
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+
+#tablename-tooltip{
+    visibility: hidden;
+}
+#table-name-lable:hover #tablename-tooltip{
+    visibility: visible;
+}
+#tabletag th{
+    font-size: 1.25rem;
+    width: 15rem;
+    margin-bottom: 0.5rem;
+    min-width: 10rem;
+    cursor:grab;
+    text-align: left;
+    border-bottom: dashed rgba(90,44,44,0.4) 1px;
+}
+#tabletag th:first-child{
+    text-align: center;
+   
+}
+#tabletag th:hover{
+    color: red;
+    border-bottom: dotted rgba(190,44,44,0.6) 1px;
+}
+#tabletag td:first-child{
+    width: 15rem;
+    text-align: center;
+
+}
+#tabletag td{
+    overflow-x: hidden;
+}
+
+#tablefooter > button:hover{
+background-color: red;
+color: whitesmoke;
+width: 10rem;
+border-radius: 1rem;
+/* letter-spacing: 2px; */
+}
