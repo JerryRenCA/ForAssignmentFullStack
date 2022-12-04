@@ -16,76 +16,116 @@ h1 {
 }
 
 
-.font-satisfy{
+.font-satisfy {
     font-family: 'Satisfy', cursive;
 }
-.font-playfair{
+
+.font-playfair {
     font-family: 'Playfair Display', serif;
 }
-.font-ubuntu-c{
+
+.font-ubuntu-c {
     font-family: 'Ubuntu Condensed', sans-serif;
 }
+
 .font-ubuntu{
     font-family: 'Ubuntu', sans-serif;
 }
 
-main{
+main {
     display: grid;
     grid-template-columns: 25% 75%;
 }
 
-#table-nav >*{
+#table-nav>* {
     width: 15rem;
     margin: 0.5rem;
     font-size: 1.5rem;
     cursor: pointer;
     border-radius: 0.5rem;
-    background: linear-gradient(rgba(180,44,44,0.8),rgba(90,44,44,0.6));
+    background: linear-gradient(rgba(180, 44, 44, 0.8), rgba(90, 44, 44, 0.6));
     text-align: center;
 }
 
-#table-nav >*:hover{
-    background: linear-gradient(rgba(180,44,44,0.6),rgba(90,44,44,0.4));
+#table-nav>*:hover {
+    background: linear-gradient(rgba(180, 44, 44, 0.6), rgba(90, 44, 44, 0.4));
     letter-spacing: 2px;
     font-weight: bold;
 }
 
-#tablename-tooltip{
+#tablename-tooltip {
     visibility: hidden;
 }
-#table-name-lable:hover #tablename-tooltip{
+
+#table-name-lable:hover #tablename-tooltip {
     visibility: visible;
 }
-#tabletag th{
+#message-container{
+    width: 25rem;
+    color: white;
+    font-size: 1.0rem;
+}
+.messageShow{
+    visibility: visible;
+}
+.messageHide{
+    visibility: hidden;
+}
+#tabletag th {
     font-size: 1.25rem;
     width: 15rem;
     margin-bottom: 0.5rem;
     min-width: 10rem;
-    cursor:grab;
+    cursor: grab;
     text-align: left;
-    border-bottom: dashed rgba(90,44,44,0.4) 1px;
+    border-bottom: dashed rgba(90, 44, 44, 0.4) 1px;
 }
-#tabletag th:first-child{
+
+#tabletag th:first-child {
     text-align: center;
-   
+    width: 10rem;
 }
-#tabletag th:hover{
+#tabletag th:nth-child(2) {
+    text-align: center;
+    width: 10rem;
+}
+#tabletag th:hover {
     color: red;
-    border-bottom: dotted rgba(190,44,44,0.6) 1px;
+    border-bottom: dotted rgba(190, 44, 44, 0.6) 1px;
 }
-#tabletag td:first-child{
-    width: 15rem;
+
+#tabletag td:first-child {
+    width: 10rem;
     text-align: center;
-
 }
-#tabletag td{
+#tabletag td:nth-child(2) {
+    width: 10rem;
+    text-align: center;
+}
+#tabletag td {
     overflow-x: hidden;
+    font-family: 'Ubuntu Condensed', sans-serif;
+    padding-left: 0.2rem;
+    border-radius: 0.2rem;
 }
-
-#tablefooter > button:hover{
-background-color: red;
-color: whitesmoke;
-width: 10rem;
-border-radius: 1rem;
-/* letter-spacing: 2px; */
+#tabletag td[contentEditable=true] {
+    color: red;
+    background-color: beige;
+}
+#tabletag td button{
+    width: 6rem;
+    background-color: gray;
+    border-radius: 0.2rem;
+    cursor: pointer;
+}
+#tabletag td button:hover{
+    color: red;
+    background-color: rgba(66, 66, 66, 0.9);
+}
+#tablefooter>button:hover {
+    background-color: red;
+    color: whitesmoke;
+    width: 10rem;
+    border-radius: 1rem;
+    /* letter-spacing: 2px; */
 }
