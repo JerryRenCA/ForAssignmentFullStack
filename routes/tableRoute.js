@@ -10,6 +10,7 @@ router.route('/')
     .delete(tableController.delRowFromTableHandler)
 router.route('/rowcount')
     .post(tableController.getRowsCountOfTableHandle)
-
+router.route('/colinfo')
+    .post(tableController.getTableColumnsInfo)
 module.exports = router
 

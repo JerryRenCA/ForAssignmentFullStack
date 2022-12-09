@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "nodemon server.js",
-    "watch":"npx tailwindcss -i ./views/public/input.css -o ./views/public/output.css --watch"
+    "watch": "npx tailwindcss -i ./views/public/input.css -o ./views/public/output.css --watch"
   },
   "name": "forassignmentfullstack",
   "version": "1.0.0",

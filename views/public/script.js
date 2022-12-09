@@ -1,12 +1,11 @@
 let pickedTableName;
 let currPage = 0;
 const pageLimit = 25;
-let totalPages=0;
+let totalPages = 0;
 
 
 let fillTableNav = async () => {
     const tables = await fetch("http://localhost:8090/db/tables").then(p => p.json())
-
     const tableNav = document.getElementById('table-nav')
     while (tableNav.firstChild) tableNav.removeChild(tableNav.firstChild)
 
@@ -36,7 +35,7 @@ const updateTableCell = async (aTdTag) => {
     const rowOldValue = aTdTag.attributes.rowvalue
     const rowNewValue = aTdTag.innerText;
     console.log(id, idName, rowName, rowOldValue, rowNewValue)
-    if ( String(rowOldValue).valueOf() === String(rowNewValue).valueOf()) return;
+    if (String(rowOldValue).valueOf() === String(rowNewValue).valueOf()) return;
     if (!confirm(`Update value from ${rowOldValue} to ${rowNewValue}?`)) {
         aTdTag.innerText = rowOldValue;
         console.log(aTdTag.innerText, rowOldValue)
@@ -63,7 +62,7 @@ const updateTableCell = async (aTdTag) => {
         })
         .then(p => p.json())
     if (!rzlt.SCode) alert("update: " + rzlt.message)
-    else {alert("Error: " + rzlt.message);aTdTag.innerText = rowOldValue;}
+    else { alert("Error: " + rzlt.message); aTdTag.innerText = rowOldValue; }
 }
 
 const deleteTableRow = async (e) => {
@@ -94,22 +93,22 @@ const deleteTableRow = async (e) => {
     else alert("Error: " + rzlt.message)
 }
 
-const getTableRowCount=async ()=>{
+const getTableRowCount = async () => {
     if (pickedTableName == undefined) return;
     const dataRows = await fetch("http://localhost:8090/table/rowcount",
-    {
-        method: "post",
-        headers: {
-            'Content-Type': 'application/json'
-            // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: JSON.stringify({ tableName: `${pickedTableName}` })
-    })
-    .then(p => p.json())
+        {
+            method: "post",
+            headers: {
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: JSON.stringify({ tableName: `${pickedTableName}` })
+        })
+        .then(p => p.json())
 
-    let rowcount=dataRows[0].rowcount
-    totalPages=Math.ceil( rowcount/pageLimit)
-    currPage=0;
+    let rowcount = dataRows[0].rowcount
+    totalPages = Math.ceil(rowcount / pageLimit)
+    currPage = 0;
 }
 const showTable = async () => {
     let clearTable = () => {
@@ -176,12 +175,14 @@ const showTable = async () => {
                     aTdTag.attributes.rowvalue = v
 
                     // console.log(aTdTag.attributes.rowid, aTdTag.attributes.rowname, aTdTag.attributes.rowvalue)
-                    aTdTag.ondblclick = (e) => { e.target.contentEditable = true; 
+                    aTdTag.ondblclick = (e) => {
+                        e.target.contentEditable = true;
                         // console.log("try to update1:",e.target.contentEditable)
-                    e.target.contentEditable}
+                        e.target.contentEditable
+                    }
                     aTdTag.onmouseout = (e) => {
                         // console.log("try to update2:",e.target.contentEditable)
-                        if (e.target.contentEditable=="true") {
+                        if (e.target.contentEditable == "true") {
                             // console.log("try to update3:",e.target.contentEditable)
                             updateTableCell(aTdTag);
                         }
@@ -197,30 +198,59 @@ const showTable = async () => {
 }
 
 function toLastPage(e) {
-    if(!totalPages)return
+    if (!totalPages) return
     if (currPage == 0) return
     currPage--
     showTable();
 }
 
 function toNextPage(e) {
-    if(!totalPages)return
+    if (!totalPages) return
     if (currPage === totalPages) return
     currPage++
     showTable();
 }
 
-const addBtnEvent=()=>{
-    document.getElementById('btnLastPage').addEventListener('click',toLastPage)
-    document.getElementById('btnNextPage').addEventListener('click',toNextPage)
+const addBtnEvent = () => {
+    document.getElementById('btnLastPage').addEventListener('click', toLastPage)
+    document.getElementById('btnNextPage').addEventListener('click', toNextPage)
 }
 function refresh() {
     fillTableNav()
     setPickedTableName()
-    
+
     getTableRowCount()
-    showTable();
+    showTable()
     addBtnEvent()
+}
+
+async function fetchData(url, optionsObj={'Content-Type': 'application/json'}, bodyContent = []) {
+    const dataRows = await fetch(url,
+        {
+            method: "post",
+            headers: optionsObj,
+            body: bodyContent
+        })
+        .then(p => p.json())
+
+    return dataRows
+}
+function prepareTableFields() {
+    const url = 'http://localhost:8090/table/colinfo'
+    optionsObj = {
+        'Content-Type': 'application/json'
+    }
+    const bodyContent = JSON.stringify({ tableName: `${pickedTableName}` })
+    const columnsInfo = fetchData(url,optionsObj,bodyContent)
+
+    const colFieldsTag=document.getElementById('col-fields')
+    
+    Array.from(columnsInfo).forEach(c=>{
+
+
+    })
+
+
 }
 
 refresh();

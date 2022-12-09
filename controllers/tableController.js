@@ -19,16 +19,30 @@ const getAllFromTableHandler = (req, res) => {
 
 const getRowsCountOfTableHandle=(req,res)=>{
     const tableName = req.body.tableName
-    console.log(tableName)
+
     const statement = db.prepare(`select count(*) as rowcount from ${tableName}`)
     const rzlt=statement.all()
-    console.dir(statement)
-    console.dir(rzlt)
+
     if (rzlt.length == 0 || !rzlt) {
         return res.status(200).json([{ "message": "no data returned" }])
     }
     res.json(rzlt);
 }
+const getTableColumnsInfo=(req,res)=>{
+    const {tableName} = req.body
+    console.dir(req.body)
+    console.dir(req.body.tableName)
+    console.dir(tableName)
+    const statement = db.prepare(`PRAGMA table_info(${tableName})`)
+    // cid/name/type/notnull/dflt_value/pk
+    
+    const rzlt=statement.all()
+    if (rzlt.length == 0 || !rzlt) {
+        return res.status(200).json([{ "message": "no data returned" }])
+    }
+    res.json(rzlt);
+}
+
 const delRowFromTableHandler = (req, res) => {
     const id = req.body.id;
     const idName = req.body.idName
@@ -62,4 +76,4 @@ const updateRowFromTableHandler = (req, res) => {
     }
 }
 
-module.exports = { getAllFromTableHandler, delRowFromTableHandler, updateRowFromTableHandler,getRowsCountOfTableHandle }
+module.exports = { getAllFromTableHandler, delRowFromTableHandler, updateRowFromTableHandler,getRowsCountOfTableHandle,getTableColumnsInfo }
