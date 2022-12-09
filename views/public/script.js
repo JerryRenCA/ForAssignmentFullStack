@@ -221,10 +221,11 @@ function refresh() {
 
     getTableRowCount()
     showTable()
+    prepareTableFields()
     addBtnEvent()
 }
 
-async function fetchData(url, optionsObj={'Content-Type': 'application/json'}, bodyContent = []) {
+async function  fetchData(url, optionsObj={'Content-Type': 'application/json'}, bodyContent = []) {
     const dataRows = await fetch(url,
         {
             method: "post",
@@ -232,20 +233,25 @@ async function fetchData(url, optionsObj={'Content-Type': 'application/json'}, b
             body: bodyContent
         })
         .then(p => p.json())
-
     return dataRows
 }
-function prepareTableFields() {
+async function prepareTableFields() {
+    if(!pickedTableName) return
     const url = 'http://localhost:8090/table/colinfo'
-    optionsObj = {
+    const optionsObj = {
         'Content-Type': 'application/json'
     }
     const bodyContent = JSON.stringify({ tableName: `${pickedTableName}` })
-    const columnsInfo = fetchData(url,optionsObj,bodyContent)
+    const columnsInfo = await fetchData(url,optionsObj,bodyContent)
 
     const colFieldsTag=document.getElementById('col-fields')
-    
+    console.dir(columnsInfo)
+
     Array.from(columnsInfo).forEach(c=>{
+        const aDiv=document.createElement('div')
+        colFieldsTag.appendChild(aDiv)
+        aDiv.classList.add('col-field')
+        // const aLabel    
 
 
     })
