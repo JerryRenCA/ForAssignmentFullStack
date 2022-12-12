@@ -76,4 +76,22 @@ const updateRowFromTableHandler = (req, res) => {
     }
 }
 
-module.exports = { getAllFromTableHandler, delRowFromTableHandler, updateRowFromTableHandler,getRowsCountOfTableHandle,getTableColumnsInfo }
+const addNewRowToTableHandler=(req,res)=>{
+    const tableName=req.body.tableName;
+    const colNames=req.body.colNames;
+    const names=colNames.join(',')
+    const colValues=req.body.colValues
+    const values='"'+colValues.join('","')+'"'
+    console.log(tableName,names,values)
+    const statement = db.prepare(`insert into ${tableName} ${names} values(${values})`)
+
+    try {
+        const rzlt = statement.run()
+        res.status(200).json({ message: "New Added successfully",SCode:0 })
+    }
+    catch (err) {
+        res.status(200).json({ message: "Fail to add new row", SCode:1 })
+    }
+}
+module.exports = { getAllFromTableHandler, delRowFromTableHandler, updateRowFromTableHandler,
+    getRowsCountOfTableHandle,getTableColumnsInfo,addNewRowToTableHandler }

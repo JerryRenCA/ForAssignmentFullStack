@@ -12,5 +12,7 @@ router.route('/rowcount')
     .post(tableController.getRowsCountOfTableHandle)
 router.route('/colinfo')
     .post(tableController.getTableColumnsInfo)
+router.route('/addNewRow')
+    .post(tableController.addNewRowToTableHandler)
 module.exports = router
 

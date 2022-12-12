@@ -80,14 +80,14 @@
                 <div id="table-insert-row" class="absolute flex flex-col w-[52.3rem]">
                     <div class="mt-3 mb-5 text-white font-bold font-playfair uppercase text-lg border-l-2 border-l-red-800 pl-2 
                     hover:text-red-700 hover:border-l-white cursor-pointer">Adding New row To Table</div>
-                    <form class=" flex flex-col">
+                    <form class=" flex flex-col" >
                         <div id="col-fields" class=" pl-6 h-[36rem] py-6 border-white border rounded-md">
                             <div class="col-field">
-                                <label>attributes #1</label>
-                                <input type="text" placeholder="please input text">
+                                <label for="pp">attributes #1</label>
+                                <input name="pp" type="text" placeholder="please input text">
                             </div>
                         </div>
-                        <button class="my-4 self-end text-2xl font-playfair w-[10rem] text-red-700 font-bold hover:text-white
+                        <button id="newrow-submit" class="my-4 self-end text-2xl font-playfair w-[10rem] text-red-700 font-bold hover:text-white
                     hover:bg-red-800 text-center rounded-md">Submit</button>
                     </form>
                 </div>

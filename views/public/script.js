@@ -211,9 +211,24 @@ function toNextPage(e) {
     showTable();
 }
 
+function toggle_c_urd(e) {
+    const c_urd_btn = e.target
+
+    const urd_table = document.getElementById('table-content')
+    const c_div = document.getElementById('table-insert-row')
+    urd_table.classList.toggle('hidden')
+    c_div.classList.toggle('hidden')
+    if (c_div.classList.contains('hidden'))
+        c_urd_btn.innerHTML = "Insert New Row"
+    else
+        c_urd_btn.innerHTML = "Show Table"
+}
+
 const addBtnEvent = () => {
     document.getElementById('btnLastPage').addEventListener('click', toLastPage)
     document.getElementById('btnNextPage').addEventListener('click', toNextPage)
+    document.getElementById('select-c-urd').addEventListener('click', toggle_c_urd)
+    document.getElementById('newrow-submit').addEventListener('click', AddNewRowToDB)
 }
 function refresh() {
     fillTableNav()
@@ -225,7 +240,7 @@ function refresh() {
     addBtnEvent()
 }
 
-async function  fetchData(url, optionsObj={'Content-Type': 'application/json'}, bodyContent = []) {
+async function fetchData(url, optionsObj = { 'Content-Type': 'application/json' }, bodyContent = []) {
     const dataRows = await fetch(url,
         {
             method: "post",
@@ -236,29 +251,80 @@ async function  fetchData(url, optionsObj={'Content-Type': 'application/json'}, 
     return dataRows
 }
 async function prepareTableFields() {
-    if(!pickedTableName) return
+    if (!pickedTableName) return
     const url = 'http://localhost:8090/table/colinfo'
     const optionsObj = {
         'Content-Type': 'application/json'
     }
     const bodyContent = JSON.stringify({ tableName: `${pickedTableName}` })
-    const columnsInfo = await fetchData(url,optionsObj,bodyContent)
+    const columnsInfo = await fetchData(url, optionsObj, bodyContent)
 
-    const colFieldsTag=document.getElementById('col-fields')
+    const colFieldsTag = document.getElementById('col-fields')
     console.dir(columnsInfo)
-
-    Array.from(columnsInfo).forEach(c=>{
-        const aDiv=document.createElement('div')
+    while (colFieldsTag.firstChild) colFieldsTag.removeChild(colFieldsTag.firstChild)
+    Array.from(columnsInfo).splice(1).forEach(c => {
+        const aDiv = document.createElement('div')
         colFieldsTag.appendChild(aDiv)
         aDiv.classList.add('col-field')
-        // const aLabel    
-
-
+        const aLable = document.createElement('label')
+        aDiv.appendChild(aLable)
+        aLable.innerText = c.name
+        aLable.for = c.name
+        aLable.classList.add('label-field')
+        const aInput = document.createElement('input')
+        aDiv.appendChild(aInput)
+        aInput.placeholder = "Input..."
+        aInput.name = c.name
+        aInput.required = true
+        aInput.classList.add('input-field')
     })
 
 
 }
 
+function resetInput(){
+    const inputTags = document.querySelectorAll('#col-fields input')
+    Array.from(inputTags).forEach(p => {
+        p.value=""
+    })
+}
+
+function AddNewRowToDB(e) {
+    e.preventDefault()
+    const colNames = []
+    const colValues = []
+    const inputTags = document.querySelectorAll('#col-fields input')
+    console.dir(inputTags)
+    let is_NotNull = true
+    Array.from(inputTags).forEach(p => {
+        // console.dir(p)
+        // console.dir(p.name)
+        // console.dir(p.value)
+        colNames.push(p.name)
+        colValues.push(p.value)
+        if (p.value == "") {
+            alert(`Field ${p.name} cannot be Null!`)
+            is_NotNull = false
+        }
+    })
+    if (!is_NotNull) return
+    let addNewRow = async () => {
+        const rzlt = await fetch("http://localhost:8090/table/addNewRow",
+            {
+                method: "post",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    colNames, colValues,tableName:pickedTableName
+                })
+            })
+            .then(p => p.json())
+        if (!rzlt.SCode) {resetInput();alert("New Row added: " + rzlt.message)}
+        else { alert("Error: " + rzlt.message); aTdTag.innerText = rowOldValue; }
+    }
+    addNewRow();
+}
 refresh();
 
 

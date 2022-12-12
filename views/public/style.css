@@ -130,3 +130,34 @@ main {
     border-radius: 1rem;
     /* letter-spacing: 2px; */
 }
+
+#table-insert-row #col-fields{
+    font-size: 1.5rem;
+    overflow: auto;
+   
+}
+#table-insert-row .col-field{
+    font-size: 1.5rem;
+    margin-left: 5rem;
+}
+#table-insert-row .label-field{
+    display: inline-block;
+    font-size: 1.5rem;
+    width: 12rem;
+
+    margin: 0.5rem;
+}
+#table-insert-row .input-field{
+    width: 25rem;
+    font-size: 1.5rem;
+    margin: 0.5rem;
+    border-radius: 0.25rem;
+    border: 1px solid brown;
+    box-shadow: 1px 0px 2px 2px brown;
+    padding-left: 0.5rem;
+    color: black;
+    font-family: 'Ubuntu Condensed', sans-serif;
+}
+#table-insert-row .input-field:focus{
+    box-shadow: inset 1px 0px 2px 4px brown;
+}
