@@ -3,10 +3,10 @@ const db = new Database('./database/chinook.db', { verbose: console.log });
 
 
 const getAllFromTableHandler = (req, res) => {
-    console.log("aa",req.body.tableName,req.body.limit,req.body.offset)
+    // console.log("aa",req.body.tableName,req.body.limit,req.body.offset)
     let limit2 = req.body.limit ? req.body.limit : 25
     let offset2 = req.body.offset ? req.body.offset : 0
-    console.log(req.body.tableName,limit2, offset2)
+    // console.log(req.body.tableName,limit2, offset2)
     const statement = db.prepare(`select * from ${req.body.tableName} limit ${limit2} offset ${offset2}`);
     const result = statement.all();
     
@@ -30,9 +30,9 @@ const getRowsCountOfTableHandle=(req,res)=>{
 }
 const getTableColumnsInfo=(req,res)=>{
     const {tableName} = req.body
-    console.dir(req.body)
-    console.dir(req.body.tableName)
-    console.dir(tableName)
+    // console.dir(req.body)
+    // console.dir(req.body.tableName)
+    // console.dir(tableName)
     const statement = db.prepare(`PRAGMA table_info(${tableName})`)
     // cid/name/type/notnull/dflt_value/pk
     
@@ -76,20 +76,31 @@ const updateRowFromTableHandler = (req, res) => {
     }
 }
 
-const addNewRowToTableHandler=(req,res)=>{
+const addNewRowToTableHandler= (req,res)=>{
     const tableName=req.body.tableName;
     const colNames=req.body.colNames;
     const names=colNames.join(',')
+    const atNames='@'+colNames.join(',@')
     const colValues=req.body.colValues
     const values='"'+colValues.join('","')+'"'
-    console.log(tableName,names,values)
-    const statement = db.prepare(`insert into ${tableName} ${names} values(${values})`)
-
+    // console.log(tableName,names,values)
+    const obj={};
+    for(let i=0;i<colNames.length;i++){
+        obj[colNames[i]]=colValues[i];
+    }
+    // const sql = `insert into ${tableName} (${names}) values(${values})`
+    const sql = `insert into ${tableName} (${names}) values(${atNames})`
+    const statement = db.prepare(sql)
+    // console.dir(sql)
+    // console.dir(statement)
+    // console.dir(obj)
     try {
-        const rzlt = statement.run()
-        res.status(200).json({ message: "New Added successfully",SCode:0 })
+        const rzlt =  statement.run(obj)
+        // const rzlt=db.exec(sql)
+        res.status(200).json({ message: "Added successfully",SCode:0 })
     }
     catch (err) {
+        // console.error(err)
         res.status(200).json({ message: "Fail to add new row", SCode:1 })
     }
 }

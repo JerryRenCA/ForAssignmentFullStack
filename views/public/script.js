@@ -15,7 +15,7 @@ let fillTableNav = async () => {
         aDiv.innerHTML = tableName;
         aDiv.onclick = (e) => {
             pickedTableName = e.target.innerHTML;
-            console.log("tablename:", pickedTableName)
+            // console.log("tablename:", pickedTableName)
             refresh();
         }
     }
@@ -28,17 +28,17 @@ const setPickedTableName = () => {
 }
 
 const updateTableCell = async (aTdTag) => {
-    console.log("s1")
+    // console.log("s1")
     const id = aTdTag.attributes.rowid;
     const idName = aTdTag.attributes.rowidname;
     const rowName = aTdTag.attributes.rowname
     const rowOldValue = aTdTag.attributes.rowvalue
     const rowNewValue = aTdTag.innerText;
-    console.log(id, idName, rowName, rowOldValue, rowNewValue)
+    // console.log(id, idName, rowName, rowOldValue, rowNewValue)
     if (String(rowOldValue).valueOf() === String(rowNewValue).valueOf()) return;
     if (!confirm(`Update value from ${rowOldValue} to ${rowNewValue}?`)) {
         aTdTag.innerText = rowOldValue;
-        console.log(aTdTag.innerText, rowOldValue)
+        // console.log(aTdTag.innerText, rowOldValue)
         return;
     };
     // console.log(rowOldValue, rowNewValue)
@@ -140,6 +140,7 @@ const showTable = async () => {
     let fillTable = () => {
         const tHeaderTag = document.getElementById('table-head')
         const tBodyTag = document.getElementById('table-body')
+        let isMessage=false
         let fillTHead = () => {
             const aTrTag = document.createElement('tr')
             tHeaderTag.append(aTrTag)
@@ -150,6 +151,7 @@ const showTable = async () => {
                 const aThTag = document.createElement('th')
                 aTrTag.appendChild(aThTag)
                 aThTag.innerHTML = th
+                if(th=="message")isMessage=true;
             })
         }
         fillTHead();
@@ -157,9 +159,11 @@ const showTable = async () => {
             dataRows.forEach(row => {
                 const aTrTag = document.createElement('tr')
                 tBodyTag.append(aTrTag)
+                
                 const delTdTag = document.createElement('td')
                 aTrTag.appendChild(delTdTag)
-                delTdTag.innerHTML = "<button>Delete</button>"
+                delTdTag.innerHTML = isMessage?"":"<button>Delete</button>"
+
                 const values = Object.values(row)
                 const keys = Object.keys(row)
                 delTdTag.attributes.rowid = values[0]
@@ -260,7 +264,7 @@ async function prepareTableFields() {
     const columnsInfo = await fetchData(url, optionsObj, bodyContent)
 
     const colFieldsTag = document.getElementById('col-fields')
-    console.dir(columnsInfo)
+    // console.dir(columnsInfo)
     while (colFieldsTag.firstChild) colFieldsTag.removeChild(colFieldsTag.firstChild)
     Array.from(columnsInfo).splice(1).forEach(c => {
         const aDiv = document.createElement('div')
@@ -294,7 +298,7 @@ function AddNewRowToDB(e) {
     const colNames = []
     const colValues = []
     const inputTags = document.querySelectorAll('#col-fields input')
-    console.dir(inputTags)
+    // console.dir(inputTags)
     let is_NotNull = true
     Array.from(inputTags).forEach(p => {
         // console.dir(p)
@@ -321,9 +325,10 @@ function AddNewRowToDB(e) {
             })
             .then(p => p.json())
         if (!rzlt.SCode) {resetInput();alert("New Row added: " + rzlt.message)}
-        else { alert("Error: " + rzlt.message); aTdTag.innerText = rowOldValue; }
+        else { alert("Error: " + rzlt.message); }
     }
     addNewRow();
+    refresh();
 }
 refresh();
 
