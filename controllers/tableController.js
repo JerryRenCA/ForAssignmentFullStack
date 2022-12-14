@@ -1,5 +1,6 @@
 const Database = require('better-sqlite3');
-const db = new Database('./database/chinook.db', { verbose: console.log });
+const DB_filename=process.env.DB_FILENAME
+const db = new Database('./database/'+DB_filename, { verbose: null });
 
 
 const getAllFromTableHandler = (req, res) => {
@@ -15,7 +16,7 @@ const getAllFromTableHandler = (req, res) => {
     }
 
     res.json(result);
-}
+}  
 
 const getRowsCountOfTableHandle=(req,res)=>{
     const tableName = req.body.tableName
@@ -28,7 +29,7 @@ const getRowsCountOfTableHandle=(req,res)=>{
     }
     res.json(rzlt);
 }
-const getTableColumnsInfo=(req,res)=>{
+const getTableColumnsInfo=(req,res)=>{  
     const {tableName} = req.body
     // console.dir(req.body)
     // console.dir(req.body.tableName)

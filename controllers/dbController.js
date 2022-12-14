@@ -1,6 +1,7 @@
 
 const Database = require('better-sqlite3');
-const db = new Database('./database/chinook.db', { verbose: null });
+const DB_filename=process.env.DB_FILENAME
+const db = new Database('./database/'+DB_filename, { verbose: null });
 const path=require('path')
 
 
