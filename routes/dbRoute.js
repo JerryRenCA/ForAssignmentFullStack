@@ -6,7 +6,8 @@ console.dir(dbController)
 router.route('/tables').get(dbController.getAllTableHandler)
 
 router.route('/oper').get(dbController.showOperPageHandler)
-// router.route('/oper/:id').get(dbController.showOperPageHandler)
+
+router.route('/oper/:id').get(dbController.showOperPageHandler)
 
 module.exports=router
 

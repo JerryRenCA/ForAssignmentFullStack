@@ -10,7 +10,7 @@ const getAllTableHandler = (req, res) => {
     const db = new Database('./database/' + DB_filename, { verbose: null });
     const statement = db.prepare(`SELECT name FROM sqlite_schema WHERE type ='table' AND name NOT LIKE 'sqlite_%'`);
     const result = statement.all();
-    res.json(result);
+    res.status(200).json(result);
 }
 
 
@@ -31,7 +31,7 @@ const showOperPageHandler = (req, res) => {
 
     console.log(process.env.DB_FILENAME)
 
-    res.sendFile(path.join(__dirname, '..', 'views', 'table', 'tableOper.html'))
+    res.status(200).sendFile(path.join(__dirname, '..', 'views', 'table', 'tableOper.html'))
 }
 
 
